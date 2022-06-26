@@ -6,6 +6,7 @@ package it.polito.tdp.genes;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.genes.model.Adiacenti;
@@ -81,6 +82,34 @@ public class FXMLController {
 
     @FXML
     void doSimula(ActionEvent event) {
+    	txtResult.clear();
+    	Genes g = this.cmbGeni.getValue();
+    	
+    	if(g == null) {
+    		txtResult.appendText("Seleziona un gene valido!\n");
+    		return;
+    	}
+    	
+    	String n = this.txtIng.getText();
+    	Integer nIng;
+    	try {
+			nIng = Integer.parseInt(n);
+		} catch (NumberFormatException e) {
+			txtResult.appendText("Inserisci un numero valido!\n");
+			return;
+		}
+    	
+    	Map<Genes, Integer> result = this.model.simula(g, nIng);;
+    	
+    	if(result == null) {
+    		txtResult.appendText("Il gene selezionato è isolato!\n");
+    	}else {
+			txtResult.appendText("Risultato simulazione: \n");
+			for(Genes genes : result.keySet())
+				txtResult.appendText(genes + " " + result.get(g) + "\n");
+		}
+    	
+    	
 
     }
 
